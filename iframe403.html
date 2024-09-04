@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <iframe id="iframe" scrolling="no" style="overflow: hidden; width: 90%; height:0; border:none;"></iframe>
+
+    <p id="result"></p>
+
+    <script type="text/javascript">
+
+        function onLoad() {
+            console.log('iframe loaded ✅')
+
+            const iframe = document.getElementById("iframe");
+
+            window.addEventListener('message', (e) => {
+                // récupère la height et width envoyé depuis le legacy
+                const message = e.data;
+                iframe.style.height = message.height + 'px';
+            }, false);
+
+            let content = (iframe.contentWindow || iframe.contentDocument);
+            if (content.document) content = content.document;
+
+            // const iframeText = content.querySelector("body > div").innerHTML
+            const iframeText = content.getElementById("erreur").innerHTML
+            document.getElementById("result").innerHTML = iframeText
+        }
+
+        function onError() {
+            console.log('ERREUR 💥')
+        }
+
+        const iframeUrl = "/legacy.html"
+        const iframe = document.getElementById('iframe')
+        iframe.onload = onLoad
+        iframe.onerror = onError
+        iframe.src = iframeUrl
+
+        // iframe.src = "https://fr.wikipedia.org/wiki/Main_Page" // 200
+        // iframe.src = "https://google.com" // 200 mais secu
+        // iframe.src = "http:/www.stackoverflow.com/" // 404
+        // iframe.src = "https://www.valums.com/ajax-upload" // 404
+        // iframe.src = "./legacy.html" // 404
+    </script>
+
+
+    <!-- <script type="text/javascript">
+        function iframeDidLoad() {
+            alert('Done');
+        }
+
+        function newSite() {
+            var sites = ['http://getprismatic.com',
+                'http://gizmodo.com/',
+                'http://lifehacker.com/']
+
+            document.getElementById('myIframe').src = sites[Math.floor(Math.random() * sites.length)];
+        }    
+    </script>
+    <input type="button" value="Change site" onClick="newSite()" />
+    <iframe id="myIframe" src="http://getprismatic.com/" onLoad="iframeDidLoad()"></iframe> -->
+</body>
+
+</html>
