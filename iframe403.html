@@ -44,14 +44,17 @@
             // const iframeText = content.getElementById("erreur").innerHTML
             const erreurElem = content.querySelector("body > pre")
             console.log(erreurElem)
-            document.getElementById("result").innerHTML = erreurElem.innerHTML
 
-            if (!erreurElem) {
+            if (erreurElem) {
+                document.getElementById("result").innerHTML = erreurElem.innerHTML
+            } else {
+                console.log('ça va retry !! 🎈')
                 iframe.src = ""
                 setTimeout(() => {
                     iframe.src = iframeUrl
                 }, 100);
             }
+
         }
 
         function onError() {
