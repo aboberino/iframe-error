@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="display: flex; gap: 32px;">
+        <div style="display: flex; flex-direction: column;">
+            Iframe legacy 403
+            <iframe id="iframe_403" scrolling="no" style="overflow: hidden; width: 500px; height:500px; border: 1px solid red;"></iframe>
+            <div>
+                Erreur récupéré de l'iframe: <p id="result_403"></p>
+            </div>
+        </div>
+
+
+        <div style="display: flex; flex-direction: column;">
+            Iframe legacy 200
+            <iframe id="iframe_200" scrolling="no" style="overflow: hidden; width: 500px; height:500px; border: 1px solid green;"></iframe>
+            <div>
+                Erreur récupéré de l'iframe: <p id="result_200"></p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        const iframeUrl403 = "/403.html"
+        const iframeUrl200 = "/200.html"
+
+        let retryCount = 0
+
+        function onLoad(iframe, url, id) {
+            console.log('iframe loaded ✅', { url, id})
+            retryCount++
+
+            console.log(iframe)
+
+            if (iframe.title !== 'Legacy') {
+
+                let content = (iframe.contentWindow || iframe.contentDocument);
+                console.log(content)
+
+                if (content.document) content = content.document;
+                console.log(content)
+
+                const document = content.querySelector("body > pre")
+                console.log(document)
+
+                if (document) {
+                    document.getElementById("result"+id).innerHTML = document.innerHTML
+                }
+
+                if(retryCount <= 1) {
+                    retryIframe(iframe, url)
+                }
+            } 
+        }
+
+        function retryIframe(iframe, url) {
+            console.log('retry !! 🎈')
+            iframe.src = ""
+            setTimeout(() => {
+                iframe.src = url
+            }, 100);
+        }
+
+        function onError() {
+            console.log('ERREUR 💥')
+        }
+
+        function initIframe(url, id) {
+            const iframe = document.getElementById('iframe'+id)
+            iframe.onload = onLoad(iframe, url, id)
+            iframe.onerror = onError
+            iframe.src = url
+        }
+
+        initIframe(iframeUrl403, '_403')
+        initIframe(iframeUrl200, '_200')
+    </script>
+</body>
+
+</html>
