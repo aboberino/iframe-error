@@ -51,6 +51,7 @@
                 document.getElementById("result").innerHTML = erreurElem.innerHTML
             } else {
                 if (retryCount < 1) {
+                    retryCount++
                     console.log('ça va retry !! 🎈')
                     iframe.src = ""
                     setTimeout(() => {
