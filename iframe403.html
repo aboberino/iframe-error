@@ -25,7 +25,9 @@
         let retryCount = 0
 
         function onLoad() {
+
             console.log('iframe loaded ✅')
+            retryCount++
 
             const iframe = document.getElementById("iframe");
             console.log(iframe)
@@ -51,7 +53,6 @@
                 document.getElementById("result").innerHTML = erreurElem.innerHTML
             } else {
                 if (retryCount < 1) {
-                    retryCount++
                     console.log('ça va retry !! 🎈')
                     iframe.src = ""
                     setTimeout(() => {
