@@ -22,6 +22,8 @@
     <script type="text/javascript">
         const iframeUrl = "/legacy.html"
 
+        let retryCount = 0
+
         function onLoad() {
             console.log('iframe loaded ✅')
 
@@ -48,11 +50,13 @@
             if (erreurElem) {
                 document.getElementById("result").innerHTML = erreurElem.innerHTML
             } else {
-                console.log('ça va retry !! 🎈')
-                iframe.src = ""
-                setTimeout(() => {
-                    iframe.src = iframeUrl
-                }, 100);
+                if (retryCount < 1) {
+                    console.log('ça va retry !! 🎈')
+                    iframe.src = ""
+                    setTimeout(() => {
+                        iframe.src = iframeUrl
+                    }, 100);
+                }
             }
 
         }
