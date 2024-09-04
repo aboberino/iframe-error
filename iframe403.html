@@ -40,7 +40,7 @@
 
             // const iframeText = content.querySelector("body > div").innerHTML
             // const iframeText = content.getElementById("erreur").innerHTML
-            const erreurElem = content.getElementById("erreur")
+            const erreurElem = content.querySelector("body > pre")
             console.log(erreurElem)
             document.getElementById("result").innerHTML = erreurElem.innerHTML
         }
