@@ -20,6 +20,7 @@
     <p id="result"></p>
 
     <script type="text/javascript">
+        const iframeUrl = "/legacy.html"
 
         function onLoad() {
             console.log('iframe loaded ✅')
@@ -46,13 +47,19 @@
             const erreurElem = content.querySelector("body > pre")
             console.log(erreurElem)
             document.getElementById("result").innerHTML = erreurElem.innerHTML
+
+            if (!erreurElem) {
+                iframe.src = ""
+                setTimeout(() => {
+                    iframe.src = iframeUrl
+                }, 100);
+            }
         }
 
         function onError() {
             console.log('ERREUR 💥')
         }
 
-        const iframeUrl = "/legacy.html"
         const iframe = document.getElementById('iframe')
         iframe.onload = onLoad
         iframe.onerror = onError
